@@ -6,7 +6,7 @@ function PostList() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage, setPostPerPage] = useState(6);
+  const [postPerPage, setPostPerPage] = useState(10);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -19,10 +19,15 @@ function PostList() {
     fetchPosts();
   }, []);
 
+  // Get posts on the current page
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
   return (
     <div className="container mt-3">
       <div className="text-primary mb-3">
-        <Posts posts = {posts} loading={loading} />
+        <Posts posts = {currentPosts} loading={loading} />
       </div>
     </div>
   );
